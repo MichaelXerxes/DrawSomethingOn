@@ -4,12 +4,16 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.Manifest
 import android.app.Instrumentation
+import android.content.Intent
 //import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 //import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCaller
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,6 +40,10 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this,
                         "Permission granted now you can read the storage file",
                     Toast.LENGTH_SHORT).show()
+                    val pickIntent=Intent(Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    openGalleryLauncher.launch(pickIntent)
+
                 }else{
                     if(permissionName==Manifest.permission.READ_EXTERNAL_STORAGE) {
                         Toast.makeText(
@@ -45,6 +53,16 @@ class MainActivity : AppCompatActivity() {
                         ).show()
                     }
                 }
+            }
+        }
+
+    private val openGalleryLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result ->
+            if(result.resultCode == RESULT_OK && result.data!=null){
+                val imageBackGround:ImageView = findViewById(R.id.iv_background)
+                //that will set image
+                imageBackGround.setImageURI(result.data?.data)
             }
         }
 
@@ -100,10 +118,6 @@ class MainActivity : AppCompatActivity() {
         colorDialog = Dialog(this)
         colorDialog!!.setContentView(R.layout.dialog_color_rande)
         colorDialog!!.setTitle("Colors")
-
-
-
-
         colorDialog!!.show()
     }
 
