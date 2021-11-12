@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 
 
 class DrawingView(context:Context,attrs:AttributeSet): View(context,attrs) {
@@ -17,9 +18,20 @@ class DrawingView(context:Context,attrs:AttributeSet): View(context,attrs) {
     private var color=Color.BLACK
     private var canvas:Canvas?=null
     private val mPaths=ArrayList<CustomPath>()
+    private val mUndoPaths=ArrayList<CustomPath>()
+
 
     init {
         setUpDrawing()
+    }
+      fun onClickUndo(){
+        if(mPaths.size>0){
+            mUndoPaths.add(mPaths.removeAt(mPaths.size-1))
+
+            //internally call for draw
+            invalidate()
+
+        }
     }
     private fun setUpDrawing(){
         mDrawPaint= Paint()

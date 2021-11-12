@@ -76,6 +76,14 @@
             android:scaleType="fitXY"
             android:src="@drawable/clearbtn"
             />
+        <ImageButton
+            android:id="@+id/savebtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/save_outline"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout >
